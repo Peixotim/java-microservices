@@ -1,6 +1,6 @@
-package com.ms.user.Health.controller;
+package com.ms.user.health.controller;
 
-import com.ms.user.Health.dtos.HealthResponse;
+import com.ms.user.health.dtos.HealthResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

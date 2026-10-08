@@ -1,4 +1,4 @@
-package com.ms.user.Health.dtos;
+package com.ms.user.health.dtos;
 
 import java.util.Date;
 
