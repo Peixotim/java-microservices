@@ -1,0 +1,28 @@
+services:
+  ms-user:
+    image: postgres:17
+    container_name: ms-user
+    environment:
+      POSTGRES_DB: ms-user
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ms-user-data:/var/lib/postgresql/data
+
+  ms-email:
+    image: postgres:17
+    container_name: ms-email
+    environment:
+      POSTGRES_DB: ms-email
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ms-email-data:/var/lib/postgresql/data
+
+volumes:
+  ms-user-data:
+  ms-email-data:
