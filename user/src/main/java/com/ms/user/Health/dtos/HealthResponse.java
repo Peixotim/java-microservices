@@ -1,4 +1,6 @@
 package com.ms.user.Health.dtos;
 
-public record HealthResponse() {
+import java.util.Date;
+
+public record HealthResponse(String status, Date timestamp,String name) {
 }
