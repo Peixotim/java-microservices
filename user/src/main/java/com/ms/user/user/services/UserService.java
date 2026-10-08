@@ -7,8 +7,10 @@ import com.ms.user.user.models.UserModel;
 import com.ms.user.user.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -18,6 +20,23 @@ public class UserService {
     public UserService(UserRepository repository){
         this.repository = repository;
     }
+
+
+    public UserResponse findById(UUID id){
+
+        Optional<UserModel> user = repository.findById(id);
+        if(user.isEmpty()){
+            throw ApiException.notFound("User Not Found");
+        }
+
+        return toResponse(user.get());
+    }
+
+
+    public List<UserResponse> list(){
+        return repository.findAll().stream().map(this::toResponse).toList();
+    }
+
 
     public UserResponse create(UserCreateRequest request){
         String email = request.email().trim().toLowerCase(Locale.ROOT);
@@ -29,8 +48,7 @@ public class UserService {
         try {
             UserModel user = repository.saveAndFlush(new UserModel(request.name().trim(), email));
             return toResponse(user);
-        } catch (DataIntegrityViolationException e) {
-            // concurrent request passed existsByEmail; the DB unique constraint is the real guard
+        } catch (DataIntegrityViolationException error) {
             throw ApiException.conflict("A user with this email already exists");
         }
     }
