@@ -1,4 +1,4 @@
-package com.ms.email.Health.dtos;
+package com.ms.email.health.dtos;
 
 import java.util.Date;
 
