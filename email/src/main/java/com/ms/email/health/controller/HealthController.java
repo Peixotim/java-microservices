@@ -1,6 +1,6 @@
-package com.ms.email.Health.controller;
+package com.ms.email.health.controller;
 
-import com.ms.email.Health.dtos.HealthResponse;
+import com.ms.email.health.dtos.HealthResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
