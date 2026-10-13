@@ -1,10 +1,12 @@
 package com.ms.user.user.services;
 
 import com.ms.user.core.exceptions.ApiException;
+import com.ms.user.producers.UserProducer;
 import com.ms.user.user.dtos.UserCreateRequest;
 import com.ms.user.user.dtos.UserResponse;
 import com.ms.user.user.models.UserModel;
 import com.ms.user.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -16,9 +18,11 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository repository;
+    private final UserProducer userProducer;
 
-    public UserService(UserRepository repository){
+    public UserService(UserRepository repository,UserProducer userProducer){
         this.repository = repository;
+        this.userProducer = userProducer;
     }
 
 
@@ -38,6 +42,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public UserResponse create(UserCreateRequest request){
         String email = request.email().trim().toLowerCase(Locale.ROOT);
 
@@ -47,6 +52,7 @@ public class UserService {
 
         try {
             UserModel user = repository.saveAndFlush(new UserModel(request.name().trim(), email));
+            userProducer.publishMessageEmail(user);
             return toResponse(user);
         } catch (DataIntegrityViolationException error) {
             throw ApiException.conflict("A user with this email already exists");
