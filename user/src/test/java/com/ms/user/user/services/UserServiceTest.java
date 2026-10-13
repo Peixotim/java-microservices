@@ -1,6 +1,7 @@
 package com.ms.user.user.services;
 
 import com.ms.user.core.exceptions.ApiException;
+import com.ms.user.producers.UserProducer;
 import com.ms.user.user.dtos.UserCreateRequest;
 import com.ms.user.user.models.UserModel;
 import com.ms.user.user.repository.UserRepository;
@@ -15,7 +16,8 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     private final UserRepository repository = mock(UserRepository.class);
-    private final UserService service = new UserService(repository);
+    private final UserProducer userProducer = mock(UserProducer.class);
+    private final UserService service = new UserService(repository,userProducer);
 
     @Test
     void createNormalizesEmailAndName() {
